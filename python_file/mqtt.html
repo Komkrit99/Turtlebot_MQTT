@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    <script src="paho.javascript-1.0.3/paho-mqtt.js"></script>   
+     <script type="text/javascript">
+
+        client = new Paho.MQTT.Client("enkey.bu.ac.th", Number(1883), "clientId");
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+
+        client.connect({onSuccess:onConnect});
+
+        function onConnect() {
+        console.log("onConnect");
+        client.subscribe("TEST/MQTT");
+        message = new Paho.MQTT.Message("Hello MQTT");
+        message.destinationName = "TEST/MQTT";
+        client.send(message);
+        }
+
+        function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+            console.log("onConnectionLost:"+responseObject.errorMessage);
+        }
+        }
+
+        function onMessageArrived(message) {
+        console.log("onMessageArrived:"+message.payloadString);
+        }
+        </script>
+</body>
+</html>

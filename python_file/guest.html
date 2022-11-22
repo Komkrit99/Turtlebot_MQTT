@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+	<div id="loading">
+		<center>
+			<div class="img bounce"></div>
+		</center>
+	</div>
+
+	<div id="form">
+		<div>
+			<center>
+				<div class="logo"></div>
+			</center>
+				<!--
+				<div class="paragraph">
+					<span>ข้อมูลส่วนตัว</span>
+				</div>
+				-->
+			<input type="text" id="FirstnameField" name="" placeholder="ชื่อ">
+			<input type="text" id="LastnameField" name="" placeholder="นามสกุล">
+			<input type="text" id="NicknameField" name="" placeholder="ชื่อเล่น">
+			<input type="text" id="OrganizationField" name="" placeholder="โรงเรียน">
+			<input type="email" id="EmailField" name="" placeholder="E-mail">
+			<input type="phone" id="PhoneNumberField" name="" placeholder="เบอร์โทรศัพท์">
+			<div style="margin-left: 36%;">วันเกิด</div>
+			<input type="date" id="DateOfBirthField" name="" value="01-01-2000" >
+			<script>document.getElementById(DateOfBirthField).ariaValueMax = Date(); </script>
+</div>
+			<button class="regisBtn" id="submit">Create account</button>
+			
+		</div>
+	</div>
+	<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-analytics.js";
+    import { getDatabase,ref ,set } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-database.js";
+
+  
+	const firebaseConfig = {
+    apiKey: "AIzaSyANI_RAhUOBlGZP7AdmyizKxIeZpiAi5Ck",
+    authDomain: "robot-studio-bce2c.firebaseapp.com",
+    databaseURL: "https://robot-studio-bce2c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "robot-studio-bce2c",
+    storageBucket: "robot-studio-bce2c.appspot.com",
+    messagingSenderId: "501357244082",
+    appId: "1:501357244082:web:ee9cdecd958a7a00c523ab",
+    measurementId: "G-D96VGL0B2G"
+  };
+	
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase();
+
+	document.getElementById('submit').addEventListener('click',()=>{
+	let name = document.getElementById('FirstnameField').value
+	let lastname = document.getElementById('LastnameField').value
+	let nickname = document.getElementById('NicknameField').value
+	let organization = document.getElementById('OrganizationField').value
+	let email = document.getElementById('EmailField').value.replace('@',+![]+[]+(!![]+![])).replaceAll('.',+!![]+[]+(![]+![]))
+	let phone = document.getElementById('PhoneNumberField').value
+	let brith = document.getElementById('DateOfBirthField').value
+
+   if(![name,lastname,nickname,organization,email,phone,brith].includes('')){
+    set(ref(db, 'guest/database_prople/'+email.split(+![]+[]+(!![]+![]))[+![]]), {
+     Firstname: name,
+     Lastname: lastname,
+     Nickname: nickname,
+     Email: email,
+     Organization: organization,
+     PhoneNumber: phone,
+     DateOfBirth : brith
+    });
+	console
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+	var today = new Date();
+	var dd = String(today.getDate()).padStart(2, '0');
+	var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	var yyyy = today.getFullYear();
+	today = mm + '-' + dd + '-' + yyyy;
+	alert(today);
+    let val_tmp = (window.location.search=='')?'none':urlParams.get('event')
+	
+    set(ref(db, 'guest/remark/'+email.split(+![]+[]+(!![]+![]))[+![]]), {
+     event: val_tmp,
+	 date : today
+    });
+   }else{
+    console.error('empty')
+	alert('กรุณากรอกข้อมูลให้ครบ')
+   }
+  })
+  </script>
+
+	<script src="./js/script.js"></script>
+</body>
+</html>
